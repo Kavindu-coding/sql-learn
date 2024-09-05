@@ -40,6 +40,14 @@ WHERE INSTR(email_address, '@')>0
 AND LENGTH(address_state) = 2
 ORDER BY LENGTH(email_address) DESC;
 
+/*
+Query the Name of any student in STUDENTS who scored higher than  Marks. Order your output by the last three characters of each name. If two or more students both have names ending in the same last three characters (i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+*/
+
+SELECT name FROM students
+WHERE marks > 75
+ORDER BY RIGHT(name, 3), id;
+
 /* ==================================*/
 /* Nesting Functions */
 
@@ -82,6 +90,15 @@ ROUND(price * 9 * 0.85,2),
 ROUND(price * 9 * 0.85)
 FROM product
 WHERE product_id = 1;
+
+/*
+Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's  key was broken until after completing the calculation. She wants your help finding the difference between her miscalculation (using salaries with any zeros removed), and the actual average salary.
+
+Write a query calculating the amount of error (i.e.:  average monthly salaries), and round it up to the next integer.
+*/
+
+SELECT CEIL(AVG(salary - REPLACE(salary,0,'')))
+FROM employees;
 
 /* ==================================*/
 /* Date Functions */
@@ -204,5 +221,23 @@ WHEN address_state IN ('CA', 'OR', 'TX') THEN 'WEST'
 ELSE 'Unknown' 
 END state_group
 FROM customer;
+
+/*
+Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
+
+Equilateral: It's a triangle with  sides of equal length.
+Isosceles: It's a triangle with  sides of equal length.
+Scalene: It's a triangle with  sides of differing lengths.
+Not A Triangle: The given values of A, B, and C don't form a triangle.
+*/
+
+SELECT
+CASE 
+WHEN A+B <= C OR B+C <= A OR A+C <= B THEN 'Not A Triangle'
+WHEN A = B AND A=C THEN 'Equilateral' 
+WHEN A!=B AND B!=C AND A!=C THEN 'Scalene'
+ELSE 'Isosceles'
+END type
+FROM TRIANGLES ;
 
 
